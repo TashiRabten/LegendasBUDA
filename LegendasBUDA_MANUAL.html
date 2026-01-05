@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual do Usuário - LegendasBUDA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2C3E50;
+            background: linear-gradient(135deg, #88A9CC 0%, #A8C4DC 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #3E7EBE 0%, #5A7A9A 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        h2 {
+            color: #3E7EBE;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #88A9CC;
+            font-size: 1.8em;
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
+        }
+
+        h3 {
+            color: #5A7A9A;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #D16A5F;
+        }
+
+        .back-to-index {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 8px 16px;
+            background: #3E7EBE;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.9em;
+            transition: background 0.3s;
+        }
+
+        .back-to-index:hover {
+            background: #2E5E9E;
+        }
+
+        .index {
+            background: #F5F5DC;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .index h2 {
+            margin-top: 0;
+            border-bottom: none;
+        }
+
+        .index ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .index li {
+            margin-bottom: 8px;
+        }
+
+        .index a {
+            color: #3E7EBE;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .index a:hover {
+            text-decoration: underline;
+        }
+
+        .warning-box {
+            background: #FFF3CD;
+            border-left: 4px solid #E08232;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .info-box {
+            background: #E8F5E9;
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .step-box {
+            background: #E3F2FD;
+            border-left: 4px solid #3E7EBE;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        kbd {
+            background: #f4f4f4;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+            display: inline-block;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            padding: 2px 6px;
+            white-space: nowrap;
+        }
+
+        footer {
+            background: #2C3E50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-item {
+            background: #F5F5DC;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .feature-item strong {
+            color: #3E7EBE;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>LegendasBUDA</h1>
+            <p>Visualizador de Legendas para Vídeos do YouTube</p>
+            <p style="font-size: 0.9em; margin-top: 10px;">Versão 1.0.0</p>
+        </header>
+
+        <div class="content">
+            <!-- ÍNDICE -->
+            <div class="index" id="indice">
+                <h2>📋 Índice</h2>
+                <ul>
+                    <li><a href="#introducao">1. Introdução</a></li>
+                    <li><a href="#instalacao">2. Instalação</a></li>
+                    <li><a href="#autorizacao">3. Autorização no Windows e macOS</a></li>
+                    <li><a href="#interface">4. Interface Principal</a></li>
+                    <li><a href="#carregar-legendas">5. Carregar Legendas</a></li>
+                    <li><a href="#navegacao">6. Navegação entre Legendas</a></li>
+                    <li><a href="#tamanho-fonte">7. Ajustar Tamanho da Fonte</a></li>
+                    <li><a href="#sempre-visivel">8. Modo Sempre Visível</a></li>
+                    <li><a href="#atalhos">9. Atalhos de Teclado</a></li>
+                    <li><a href="#atualizacoes">10. Atualizações Automáticas</a></li>
+                    <li><a href="#solucao-problemas">11. Solução de Problemas</a></li>
+                </ul>
+            </div>
+
+            <!-- INTRODUÇÃO -->
+            <section id="introducao">
+                <h2>1. Introdução</h2>
+                <p>
+                    O <strong>LegendasBUDA</strong> é um visualizador compacto de legendas projetado para ajudar estudantes
+                    a acompanhar legendas em português enquanto assistem vídeos do YouTube. Com uma interface minimalista
+                    e recursos de navegação intuitiva, o aplicativo permite que você controle o ritmo de leitura das legendas
+                    independentemente do vídeo.
+                </p>
+
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <strong>📄 Upload Simples</strong><br>
+                        Carregue arquivos .docx com legendas separadas por linhas em branco
+                    </div>
+                    <div class="feature-item">
+                        <strong>⌨️ Navegação Fácil</strong><br>
+                        Use Espaço/Setas para avançar e Backspace para voltar
+                    </div>
+                    <div class="feature-item">
+                        <strong>🔤 Fonte Ajustável</strong><br>
+                        Tamanhos de 12 a 48px com janela que se adapta automaticamente
+                    </div>
+                    <div class="feature-item">
+                        <strong>📌 Sempre Visível</strong><br>
+                        Mantenha as legendas sempre no topo enquanto assiste ao vídeo
+                    </div>
+                    <div class="feature-item">
+                        <strong>🌏 Suporte Unicode</strong><br>
+                        Exibe caracteres tibetanos e chineses corretamente
+                    </div>
+                    <div class="feature-item">
+                        <strong>🔄 Auto-atualização</strong><br>
+                        Verifica automaticamente por novas versões
+                    </div>
+                </div>
+
+                <a href="#indice" class="back-to-index">↑ Voltar ao Índice</a>
+            </section>
+
+            <!-- INSTALAÇÃO -->
+            <section id="instalacao">
+                <h2>2. Instalação</h2>
+
+                <h3>Windows</h3>
+                <ol>
+                    <li>Baixe o arquivo <code>LegendasBUDA-1.0.0.exe</code> do <a href="https://github.com/tashirabten/LegendasBUDA/releases" target="_blank">GitHub Releases</a></li>
+                    <li>Execute o instalador</li>
+                    <li>Siga o assistente de instalação</li>
+                    <li>O aplicativo será instalado em <code>C:\Program Files\LegendasBUDA</code></li>
+                    <li>Um atalho será criado no Menu Iniciar</li>
+                </ol>
+
+                <h3>macOS</h3>
+                <ol>
+                    <li>Baixe o arquivo <code>LegendasBUDA-1.0.0.pkg</code> do <a href="https://github.com/tashirabten/LegendasBUDA/releases" target="_blank">GitHub Releases</a></li>
+                    <li>Abra o arquivo .pkg</li>
+                    <li>Siga o assistente de instalação</li>
+                    <li>O aplicativo será instalado em <code>/Applications</code></li>
+                </ol>
+
+                <div class="info-box">
+                    <strong>ℹ️ Primeiro Lançamento:</strong> Na primeira execução, o aplicativo verificará automaticamente
+                    por atualizações disponíveis e estará pronto para uso imediato.
+                </div>
+
+                <a href="#indice" class="back-to-index">↑ Voltar ao Índice</a>
+            </section>
+
+            <!-- AUTORIZAÇÃO -->
+            <section id="autorizacao">
+                <h2>3. Autorização no Windows e macOS</h2>
+
+                <p>
+                    Como o LegendasBUDA não possui assinatura digital de desenvolvedores certificados pela Microsoft ou Apple,
+                    é normal que o sistema operacional mostre avisos de segurança na primeira execução.
+                    <strong>Isso não significa que o aplicativo seja malicioso</strong> - apenas que ele não foi verificado
+                    pelas lojas oficiais.
+                </p>
+
+                <h3>Windows - Windows Defender SmartScreen</h3>
+
+                <p>Ao executar o instalador ou o aplicativo pela primeira vez, você verá:</p>
+
+                <div class="warning-box">
+                    <strong>⚠️ Windows Defender SmartScreen</strong><br>
+                    "O Windows protegeu o seu PC"<br>
+                    "Microsoft Defender SmartScreen impediu o início de um aplicativo não reconhecido"
+                </div>
+
+                <div class="step-box">
+                    <strong>Como autorizar:</strong>
+                    <ol>
+                        <li>Clique em <strong>"Mais informações"</strong></li>
+                        <li>Clique no botão <strong>"Executar assim mesmo"</strong></li>
+                        <li>O aplicativo será executado e o Windows lembrará da sua escolha</li>
+                    </ol>
+                </div>
+
+                <h4>Antivírus de Terceiros (Windows)</h4>
+
+                <p>Se você usa antivírus como Avast, AVG, Norton, Kaspersky, etc., pode aparecer um alerta similar:</p>
+
+                <ul>
+                    <li><strong>Avast/AVG:</strong> Clique em "Mais ações" → "Permitir"</li>
+                    <li><strong>Norton:</strong> Clique em "Opções" → "Permitir"</li>
+                    <li><strong>Kaspersky:</strong> Clique em "Mais detalhes" → "Executar"</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>💡 Por que isso acontece?</strong><br>
+                    O Windows Defender e outros antivírus bloqueiam executáveis não assinados por padrão.
+                    Uma assinatura digital custa centenas de dólares por ano, então muitos aplicativos de código aberto
+                    não possuem. O LegendasBUDA é <strong>100% seguro e de código aberto</strong> - você pode verificar
+                    o código-fonte no GitHub.
+                </div>
+
+                <h3>macOS - Gatekeeper</h3>
+
+                <p>No macOS, ao abrir o aplicativo pela primeira vez, você verá:</p>
+
+                <div class="warning-box">
+                    <strong>⚠️ Gatekeeper</strong><br>
+                    "LegendasBUDA" não pode ser aberto porque o desenvolvedor não pode ser verificado"<br>
+                    ou<br>
+                    "LegendasBUDA" não pode ser aberto porque é de um desenvolvedor não identificado"
+                </div>
+
+                <div class="step-box">
+                    <strong>Método 1 - Menu de Contexto (Recomendado):</strong>
+                    <ol>
+                        <li>Localize o aplicativo <strong>LegendasBUDA</strong> na pasta Aplicativos</li>
+                        <li>Clique com o botão direito (ou Control + clique) no ícone</li>
+                        <li>Selecione <strong>"Abrir"</strong> no menu</li>
+                        <li>Clique em <strong>"Abrir"</strong> na janela de confirmação</li>
+                        <li>O macOS lembrará da sua escolha para futuras execuções</li>
+                    </ol>
+                </div>
+
+                <div class="step-box">
+                    <strong>Método 2 - Preferências de Segurança:</strong>
+                    <ol>
+                        <li>Tente abrir o LegendasBUDA (será bloqueado)</li>
+                        <li>Abra <strong>Preferências do Sistema</strong> → <strong>Segurança e Privacidade</strong></li>
+                        <li>Na aba <strong>"Geral"</strong>, você verá a mensagem sobre o LegendasBUDA</li>
+                        <li>Clique no botão <strong>"Abrir Mesmo Assim"</strong></li>
+                        <li>Confirme clicando em <strong>"Abrir"</strong></li>
+                    </ol>
+                </div>
+
+                <h4>Desabilitar Gatekeeper (Avançado - Não Recomendado)</h4>
+
+                <p>
+                    Se preferir desabilitar o Gatekeeper completamente (não recomendado por questões de segurança),
+                    você pode usar o Terminal:
+                </p>
+
+                <code style="display: block; padding: 10px; background: #2C3E50; color: #fff; border-radius: 5px; margin: 10px 0;">
+                    sudo spctl --master-disable
+                </code>
+
+                <p>Para reabilitar posteriormente:</p>
+
+                <code style="display: block; padding: 10px; background: #2C3E50; color: #fff; border-radius: 5px; margin: 10px 0;">
+                    sudo spctl --master-enable
+                </code>
+
+                <div class="info-box">
+                    <strong>💡 Por que isso acontece?</strong><br>
+                    O Gatekeeper do macOS bloqueia aplicativos que não foram notarizados pela Apple.
+                    Notarização requer uma conta de desenvolvedor Apple ($99/ano). O LegendasBUDA é
+                    <strong>100% seguro e de código aberto</strong> - você pode verificar o código-fonte no GitHub.
+                </div>
+
+                <h3>Verificar Autenticidade do Aplicativo</h3>
+
+                <p>Para garantir que você baixou o aplicativo oficial:</p>
+
+                <ul>
+                    <li>✅ Baixe apenas do repositório oficial: <a href="https://github.com/tashirabten/LegendasBUDA" target="_blank">github.com/tashirabten/LegendasBUDA</a></li>
+                    <li>✅ Verifique a seção "Releases" para downloads oficiais</li>
+                    <li>✅ O código-fonte completo está disponível para revisão</li>
+                    <li>❌ Nunca baixe de sites de terceiros ou fontes desconhecidas</li>
+                </ul>
+
+                <a href="#indice" class="back-to-index">↑ Voltar ao Índice</a>
+            </section>
+
+            <!-- INTERFACE PRINCIPAL -->
+            <section id="interface">
+                <h2>4. Interface Principal</h2>
+
+                <p>A interface do LegendasBUDA é minimalista e compacta, ideal para ficar sobreposta ao vídeo do YouTube:</p>
+
+                <h3>Barra Superior</h3>
+                <ul>
+                    <li><strong>Botão "Carregar Legendas (.docx)":</strong> Abre o navegador de arquivos para selecionar o arquivo de legendas</li>
+                    <li><strong>Dropdown "Tamanho":</strong> Ajusta o tamanho da fonte (12 a 48)</li>
+                    <li><strong>Checkbox "Sempre visível":</strong> Mantém a janela sempre no topo</li>
+                </ul>
+
+                <h3>Área Central</h3>
+                <ul>
+                    <li><strong>Painel de Texto:</strong> Exibe a legenda atual com altura dinâmica (2-8 linhas)</li>
+                    <li><strong>Botão ◄ (Esquerda):</strong> Volta para a legenda anterior</li>
+                    <li><strong>Botão ► (Direita):</strong> Avança para a próxima legenda</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>💡 Dica:</strong> A janela ajusta automaticamente sua altura de acordo com o conteúdo e tamanho da fonte selecionado,
+                    mantendo-se sempre compacta.
+                </div>
+
+                <a href="#indice" class="back-to-index">↑ Voltar ao Índice</a>
+            </section>
+
+            <!-- CARREGAR LEGENDAS -->
+            <section id="carregar-legendas">
+                <h2>5. Carregar Legendas</h2>
+
+                <h3>Formato do Arquivo</h3>
+
+                <p>O LegendasBUDA aceita arquivos <strong>.docx</strong> (Microsoft Word) com legendas separadas por <strong>linhas em branco</strong>.</p>
+
+                <div class="step-box">
+                    <strong>Exemplo de formato correto:</strong>
+                    <pre style="background: #fff; padding: 10px; border-left: 3px solid #3E7EBE; margin: 10px 0;">
+Esta é a primeira legenda.
+Ela pode ter múltiplas linhas.
+
+Esta é a segunda legenda.
+
+Esta é a terceira legenda.
+Também com múltiplas linhas.</pre>
+                </div>
+
+                <h3>Passo a Passo</h3>
+
+                <ol>
+                    <li>Clique no botão <strong>"Carregar Legendas (.docx)"</strong></li>
+                    <li>O navegador de arquivos nativo do sistema abre</li>
+                    <li>Navegue até a pasta <strong>Documentos</strong> (ou onde estiver seu arquivo)</li>
+                    <li>Selecione o arquivo <code>.docx</code></li>
+                    <li>Clique em <strong>"Abrir"</strong></li>
+                    <li>As legendas serão carregadas instantaneamente</li>
+                    <li>A primeira legenda aparece automaticamente</li>
+                </ol>
+
+                <div class="warning-box">
+                    <strong>⚠️ Avisos:</strong>
+                    <ul>
+                        <li>Se o arquivo não tiver legendas, uma mensagem de erro aparecerá</li>
+                        <li>Certifique-se de que há <strong>pelo menos uma linha em branco</strong> separando cada legenda</li>
+                        <li>O aplicativo suporta caracteres tibetanos e chineses</li>
+                    </ul>
+                </div>
+
+                <a href="#indice" class="back-to-index">↑ Voltar ao Índice</a>
+            </section>
+
+            <!-- NAVEGAÇÃO -->
+            <section id="navegacao">
+                <h2>6. Navegação entre Legendas</h2>
+
+                <p>Existem duas formas de navegar pelas legendas:</p>
+
+                <h3>Usando Botões</h3>
+                <ul>
+                    <li><strong>Botão ◄:</strong> Volta para a legenda anterior</li>
+                    <li><strong>Botão ►:</strong> Avança para a próxima legenda</li>
+                </ul>
+
+                <h3>Usando Teclado (Recomendado)</h3>
+                <ul>
+                    <li><kbd>Espaço</kbd> ou <kbd>→</kbd> (Seta Direita): Próxima legenda</li>
+                    <li><kbd>Backspace</kbd> ou <kbd>←</kbd> (Seta Esquerda): Legenda anterior</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>💡 Dica de Uso:</strong> Os atalhos de teclado funcionam mesmo quando você está com foco em outra janela,
+                    desde que o LegendasBUDA esteja aberto. Isso permite navegar nas legendas sem tirar as mãos do teclado
+                    ou interromper o vídeo.
+                </div>
+
+                <h3>Estados dos Botões</h3>
+                <ul>
+                    <li><strong>Desabilitado (cinza):</strong> Quando não há mais legendas naquela direção</li>
+                    <li><strong>Habilitado (azul):</strong> Quando há legendas disponíveis</li>
+                    <li><strong>Hover (azul escuro):</strong> Quando você passa o mouse sobre o botão</li>
+                </ul>
+
+                <a href="#indice" class="back-to-index">↑ Voltar ao Índice</a>
+            </section>
+
+            <!-- TAMANHO DA FONTE -->
+            <section id="tamanho-fonte">
+                <h2>7. Ajustar Tamanho da Fonte</h2>
+
+                <p>O LegendasBUDA permite ajustar o tamanho da fonte de acordo com sua preferência ou distância da tela:</p>
+
+                <h3>Tamanhos Disponíveis</h3>
+                <p>O dropdown oferece os seguintes tamanhos (em pixels):</p>
+                <ul style="column-count: 3;">
+                    <li>12px</li>
+                    <li>14px</li>
+                    <li>16px (padrão)</li>
+                    <li>18px</li>
+                    <li>20px</li>
+                    <li>24px</li>
+                    <li>28px</li>
+                    <li>32px</li>
+                    <li>36px</li>
+                    <li>40px</li>
+                    <li>48px</li>
+                </ul>
+
+                <h3>Como Ajustar</h3>
+                <ol>
+                    <li>Clique no dropdown <strong>"Tamanho"</strong> no topo da janela</li>
+                    <li>Selecione o tamanho desejado</li>
+                    <li>A fonte muda instantaneamente</li>
+                    <li>A janela se ajusta automaticamente ao novo tamanho</li>
+                </ol>
+
+                <div class="info-box">
+                    <strong>💡 Comportamento Inteligente:</strong>
+                    <ul>
+                        <li>A altura da janela se adapta automaticamente ao tamanho da fonte</li>
+                        <li>Fontes menores (12-18): janela compacta para mais espaço na tela</li>
+                        <li>Fontes maiores (32-48): janela mais alta para melhor legibilidade</li>
+                        <li>A configuração é mantida durante toda a sessão</li>
+                    </ul>
+                </div>
+
+                <a href="#indice" class="back-to-index">↑ Voltar ao Índice</a>
+            </section>
+
+            <!-- SEMPRE VISÍVEL -->
+            <section id="sempre-visivel">
+                <h2>8. Modo Sempre Visível</h2>
+
+                <p>
+                    O recurso <strong>"Sempre visível"</strong> mantém a janela do LegendasBUDA sempre no topo de todas as outras janelas,
+                    permitindo que você acompanhe as legendas enquanto assiste ao vídeo no YouTube.
+                </p>
+
+                <h3>Ativar/Desativar</h3>
+                <ol>
+                    <li>Localize o checkbox <strong>"Sempre visível"</strong> no canto superior direito</li>
+                    <li>Clique para marcar/desmarcar</li>
+                    <li>Quando <strong>marcado</strong>: a janela fica sempre no topo</li>
+                    <li>Quando <strong>desmarcado</strong>: a janela se comporta normalmente</li>
+                </ol>
+
+                <h3>Uso Recomendado</h3>
+
+                <div class="step-box">
+                    <strong>Para assistir vídeos do YouTube:</strong>
+                    <ol>
+                        <li>Abra o YouTube no navegador</li>
+                        <li>Coloque o vídeo em <strong>tela cheia</strong></li>
+                        <li>Pressione <kbd>Esc</kbd> para sair da tela cheia</li>
+                        <li>Redimensione a janela do navegador para ocupar a parte superior da tela</li>
+                        <li>Posicione o LegendasBUDA na parte inferior</li>
+                        <li>Marque <strong>"Sempre visível"</strong></li>
+                        <li>As legendas ficarão sempre visíveis sobre o vídeo</li>
+                    </ol>
+                </div>
+
+                <div class="info-box">
+                    <strong>💡 Dica:</strong> Ao abrir o navegador de arquivos para carregar legendas, o modo "Sempre visível"
+                    é temporariamente desabilitado para permitir que você interaja com o diálogo de seleção. Após selecionar
+                    o arquivo, o modo é automaticamente restaurado.
+                </div>
+
+                <a href="#indice" class="back-to-index">↑ Voltar ao Índice</a>
+            </section>
+
+            <!-- ATALHOS -->
+            <section id="atalhos">
+                <h2>9. Atalhos de Teclado</h2>
+
+                <p>O LegendasBUDA oferece atalhos de teclado para navegação rápida:</p>
+
+                <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                    <thead>
+                        <tr style="background: #3E7EBE; color: white;">
+                            <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Tecla</th>
+                            <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #f9f9f9;">
+                            <td style="padding: 10px; border: 1px solid #ddd;"><kbd>Espaço</kbd></td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Avançar para próxima legenda</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><kbd>→</kbd> (Seta Direita)</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Avançar para próxima legenda</td>
+                        </tr>
+                        <tr style="background: #f9f9f9;">
+                            <td style="padding: 10px; border: 1px solid #ddd;"><kbd>Backspace</kbd></td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Voltar para legenda anterior</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><kbd>←</kbd> (Seta Esquerda)</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Voltar para legenda anterior</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-box">
+                    <strong>💡 Funcionamento Global:</strong> Os atalhos funcionam mesmo quando o LegendasBUDA não está em foco,
+                    permitindo que você controle as legendas enquanto interage com o player do YouTube.
+                </div>
+
+                <a href="#indice" class="back-to-index">↑ Voltar ao Índice</a>
+            </section>
+
+            <!-- ATUALIZAÇÕES -->
+            <section id="atualizacoes">
+                <h2>10. Atualizações Automáticas</h2>
+
+                <p>O LegendasBUDA verifica automaticamente por novas versões no GitHub:</p>
+
+                <h3>Verificação Automática</h3>
+                <ul>
+                    <li>Ao <strong>iniciar o aplicativo</strong>, ele verifica por atualizações</li>
+                    <li>Conecta-se ao repositório GitHub: <code>tashirabten/LegendasBUDA</code></li>
+                    <li>Compara a versão atual (1.0.0) com a versão mais recente disponível</li>
+                </ul>
+
+                <h3>Quando Há Atualização</h3>
+                <ol>
+                    <li>Uma janela aparece informando sobre a nova versão</li>
+                    <li>Mostra:
+                        <ul>
+                            <li>Versão atual instalada</li>
+                            <li>Nova versão disponível</li>
+                        </ul>
+                    </li>
+                    <li>Você pode escolher:
+                        <ul>
+                            <li><strong>Baixar agora:</strong> Abre o navegador no GitHub Releases</li>
+                            <li><strong>Mais tarde:</strong> Continua usando a versão atual</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <h3>Atualização Manual</h3>
+                <ol>
+                    <li>Visite: <a href="https://github.com/tashirabten/LegendasBUDA/releases" target="_blank">github.com/tashirabten/LegendasBUDA/releases</a></li>
+                    <li>Baixe a versão mais recente para seu sistema</li>
+                    <li>Execute o instalador</li>
+                    <li>Ele irá substituir a versão antiga automaticamente</li>
+                </ol>
+
+                <a href="#indice" class="back-to-index">↑ Voltar ao Índice</a>
+            </section>
+
+            <!-- SOLUÇÃO DE PROBLEMAS -->
+            <section id="solucao-problemas">
+                <h2>11. Solução de Problemas</h2>
+
+                <h3>O aplicativo não abre (Windows/macOS)</h3>
+                <p><strong>Solução:</strong> Veja a seção <a href="#autorizacao">Autorização no Windows e macOS</a> para instruções detalhadas sobre como autorizar o aplicativo.</p>
+
+                <h3>As legendas não aparecem corretamente</h3>
+                <p><strong>Causas possíveis:</strong></p>
+                <ul>
+                    <li>Formato do arquivo incorreto (não é .docx)</li>
+                    <li>Falta de linhas em branco separando as legendas</li>
+                </ul>
+                <p><strong>Solução:</strong></p>
+                <ol>
+                    <li>Verifique se o arquivo é .docx (não .doc ou .txt)</li>
+                    <li>Abra o arquivo no Word e confirme que há linhas em branco entre legendas</li>
+                    <li>Salve e tente carregar novamente</li>
+                </ol>
+
+                <h3>Caracteres tibetanos/chineses não aparecem</h3>
+                <p><strong>Solução:</strong></p>
+                <ul>
+                    <li>Certifique-se de que seu sistema tem fontes Unicode instaladas</li>
+                    <li>Windows: Instale "Arial Unicode MS" ou "Noto Sans"</li>
+                    <li>macOS: As fontes já estão incluídas no sistema</li>
+                </ul>
+
+                <h3>A janela não fica sempre no topo</h3>
+                <p><strong>Solução:</strong></p>
+                <ol>
+                    <li>Verifique se o checkbox "Sempre visível" está marcado</li>
+                    <li>Reinicie o aplicativo</li>
+                    <li>Se o problema persistir, pode ser uma limitação do gerenciador de janelas do seu sistema</li>
+                </ol>
+
+                <h3>Atalhos de teclado não funcionam</h3>
+                <p><strong>Solução:</strong></p>
+                <ul>
+                    <li>Certifique-se de que o LegendasBUDA está em execução</li>
+                    <li>Verifique se outro aplicativo não está capturando as mesmas teclas</li>
+                    <li>Tente clicar uma vez na janela do LegendasBUDA para dar foco</li>
+                </ul>
+
+                <h3>Erro ao verificar atualizações</h3>
+                <p><strong>Solução:</strong></p>
+                <ul>
+                    <li>Verifique sua conexão com a internet</li>
+                    <li>Certifique-se de que o firewall não está bloqueando o aplicativo</li>
+                    <li>O erro não impede o uso do aplicativo, apenas a verificação de atualizações</li>
+                </ul>
+
+                <h3>Precisa de mais ajuda?</h3>
+                <p>Visite o repositório no GitHub e abra uma <strong>Issue</strong>:</p>
+                <p><a href="https://github.com/tashirabten/LegendasBUDA/issues" target="_blank">github.com/tashirabten/LegendasBUDA/issues</a></p>
+
+                <a href="#indice" class="back-to-index">↑ Voltar ao Índice</a>
+            </section>
+
+        </div>
+
+        <footer>
+            <p><strong>LegendasBUDA v1.0.0</strong></p>
+            <p>Desenvolvido pela Associação BUDA</p>
+            <p style="margin-top: 10px; font-size: 0.85em;">
+                Código aberto disponível em:
+                <a href="https://github.com/tashirabten/LegendasBUDA" target="_blank" style="color: #88A9CC;">GitHub</a>
+            </p>
+            <p style="margin-top: 10px; font-size: 0.8em; opacity: 0.8;">
+                Última atualização: Janeiro 2026
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

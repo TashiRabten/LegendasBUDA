@@ -2,7 +2,6 @@ package com.budaassociacao.legendas;
 
 import javax.swing.*;
 import javax.swing.border.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -19,16 +18,19 @@ import java.util.List;
 public class LegendasApp extends JFrame {
 
     private JTextArea legendaArea;
-    private JLabel statusLabel;
-    private JLabel countLabel;
     private JButton uploadButton;
     private JButton previousButton;
     private JButton nextButton;
     private JCheckBox alwaysOnTopCheckbox;
     private AutoUpdater autoUpdater;
+    private JComboBox<Integer> fontSizeCombo;
 
     private List<String> legendas = new ArrayList<>();
     private int currentIndex = 0;
+    private int currentFontSize = 16;
+
+    private static final Integer[] FONT_SIZES = {12, 14, 16, 18, 20, 24, 28, 32, 36, 40, 48};
+    private static final int DEFAULT_FONT_SIZE = 16;
 
     private static final Color MAIN_BLUE = new Color(0x88A9CC);
     private static final Color LIGHT_BLUE = new Color(0xA8C4DC);
@@ -38,8 +40,13 @@ public class LegendasApp extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
+            // Remove default UI styling for custom appearance
             try {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+
+                // Disable default button hover effects
+                UIManager.put("Button.select", new Color(0, 0, 0, 0));
+                UIManager.put("Button.focus", new Color(0, 0, 0, 0));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -53,7 +60,7 @@ public class LegendasApp extends JFrame {
         super(getApplicationTitle());
         loadWindowIcon();
         initializeUI();
-        setSize(600, 400);
+        pack();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -69,7 +76,6 @@ public class LegendasApp extends JFrame {
         autoUpdater.checkForUpdatesBlocking(() -> {
             uploadButton.setEnabled(true);
             uploadButton.setText("Carregar Legendas (.docx)");
-            statusLabel.setText("Pronto para carregar legendas");
         });
     }
 
@@ -98,12 +104,12 @@ public class LegendasApp extends JFrame {
 
     private void initializeUI() {
         // Main panel with blue background
-        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+        JPanel mainPanel = new JPanel(new BorderLayout(0, 4));
         mainPanel.setBackground(MAIN_BLUE);
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 6, 4, 6));
 
-        // Top panel with upload button and always on top checkbox
-        JPanel topPanel = new JPanel(new BorderLayout(10, 0));
+        // Top panel with upload button, font size slider, and always on top checkbox
+        JPanel topPanel = new JPanel(new BorderLayout(10, 5));
         topPanel.setBackground(MAIN_BLUE);
 
         uploadButton = new JButton("Carregar Legendas (.docx)");
@@ -113,9 +119,42 @@ public class LegendasApp extends JFrame {
         uploadButton.setFocusPainted(false);
         uploadButton.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(BUTTON_GREEN.darker(), 2),
-            BorderFactory.createEmptyBorder(10, 20, 10, 20)
+            BorderFactory.createEmptyBorder(8, 15, 8, 15)
         ));
+        uploadButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         uploadButton.addActionListener(e -> loadDocxFile());
+
+        // Custom hover effect
+        uploadButton.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                uploadButton.setBackground(BUTTON_GREEN.darker());
+            }
+            public void mouseExited(MouseEvent e) {
+                uploadButton.setBackground(BUTTON_GREEN);
+            }
+        });
+
+        // Font size controls
+        JPanel fontSizePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 8, 0));
+        fontSizePanel.setBackground(MAIN_BLUE);
+
+        JLabel fontSizeLabel = new JLabel("Tamanho:");
+        fontSizeLabel.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+        fontSizeLabel.setForeground(TEXT_DARK);
+
+        fontSizeCombo = new JComboBox<>(FONT_SIZES);
+        fontSizeCombo.setSelectedItem(DEFAULT_FONT_SIZE);
+        fontSizeCombo.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        fontSizeCombo.setBackground(Color.WHITE);
+        fontSizeCombo.setFocusable(false);
+        fontSizeCombo.addActionListener(e -> {
+            currentFontSize = (Integer) fontSizeCombo.getSelectedItem();
+            updateLegendaFont();
+            resizeToFitContent();
+        });
+
+        fontSizePanel.add(fontSizeLabel);
+        fontSizePanel.add(fontSizeCombo);
 
         alwaysOnTopCheckbox = new JCheckBox("Sempre visível", true);
         alwaysOnTopCheckbox.setFont(new Font("Segoe UI", Font.PLAIN, 12));
@@ -125,85 +164,85 @@ public class LegendasApp extends JFrame {
         alwaysOnTopCheckbox.addActionListener(e -> setAlwaysOnTop(alwaysOnTopCheckbox.isSelected()));
         setAlwaysOnTop(true);
 
-        topPanel.add(uploadButton, BorderLayout.WEST);
+        JPanel topLeftPanel = new JPanel(new BorderLayout(10, 0));
+        topLeftPanel.setBackground(MAIN_BLUE);
+        topLeftPanel.add(uploadButton, BorderLayout.WEST);
+        topLeftPanel.add(fontSizePanel, BorderLayout.CENTER);
+
+        topPanel.add(topLeftPanel, BorderLayout.CENTER);
         topPanel.add(alwaysOnTopCheckbox, BorderLayout.EAST);
 
-        // Center panel with legend display
-        JPanel centerPanel = new JPanel(new BorderLayout(0, 10));
+        // Center panel with legend display and side buttons
+        JPanel centerPanel = new JPanel(new BorderLayout(6, 0));
         centerPanel.setBackground(MAIN_BLUE);
 
-        countLabel = new JLabel("Nenhuma legenda carregada", SwingConstants.CENTER);
-        countLabel.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        countLabel.setForeground(TEXT_DARK);
-
         legendaArea = new JTextArea();
-        legendaArea.setFont(new Font("Segoe UI", Font.PLAIN, 24));
+        legendaArea.setFont(getUnicodeFontWithSize(currentFontSize));
         legendaArea.setLineWrap(true);
         legendaArea.setWrapStyleWord(true);
         legendaArea.setEditable(false);
         legendaArea.setBackground(Color.WHITE);
         legendaArea.setForeground(TEXT_DARK);
         legendaArea.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(DARK_BLUE, 2),
-            BorderFactory.createEmptyBorder(20, 20, 20, 20)
+            BorderFactory.createLineBorder(DARK_BLUE, 1),
+            BorderFactory.createEmptyBorder(6, 8, 6, 8)
         ));
-        legendaArea.setText("Clique em 'Carregar Legendas' para começar\n\n" +
-                           "Use:\n" +
-                           "• ESPAÇO ou → para próxima legenda\n" +
-                           "• BACKSPACE ou ← para legenda anterior");
+        legendaArea.setColumns(30);
+        legendaArea.setText("Carregar legendas\n\nEspaço = Avançar | Backspace = Voltar");
+        legendaArea.setRows(2);
 
-        JScrollPane scrollPane = new JScrollPane(legendaArea);
-        scrollPane.setBorder(null);
-
-        centerPanel.add(countLabel, BorderLayout.NORTH);
-        centerPanel.add(scrollPane, BorderLayout.CENTER);
-
-        // Bottom panel with navigation buttons
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
-        bottomPanel.setBackground(MAIN_BLUE);
-
-        previousButton = new JButton("← Anterior");
-        previousButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        // Side navigation buttons (no fixed height, will match text area)
+        previousButton = new JButton("◄");
+        previousButton.setFont(new Font("Segoe UI", Font.BOLD, 20));
         previousButton.setBackground(DARK_BLUE);
         previousButton.setForeground(Color.WHITE);
         previousButton.setFocusPainted(false);
-        previousButton.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(DARK_BLUE.darker(), 2),
-            BorderFactory.createEmptyBorder(10, 30, 10, 30)
-        ));
+        previousButton.setBorder(BorderFactory.createEmptyBorder(3, 6, 3, 6));
         previousButton.setEnabled(false);
+        previousButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         previousButton.addActionListener(e -> previousLegenda());
 
-        nextButton = new JButton("Próxima →");
-        nextButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        // Custom hover effect
+        previousButton.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                if (previousButton.isEnabled()) {
+                    previousButton.setBackground(DARK_BLUE.darker());
+                }
+            }
+            public void mouseExited(MouseEvent e) {
+                previousButton.setBackground(DARK_BLUE);
+            }
+        });
+
+        nextButton = new JButton("►");
+        nextButton.setFont(new Font("Segoe UI", Font.BOLD, 20));
         nextButton.setBackground(DARK_BLUE);
         nextButton.setForeground(Color.WHITE);
         nextButton.setFocusPainted(false);
-        nextButton.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(DARK_BLUE.darker(), 2),
-            BorderFactory.createEmptyBorder(10, 30, 10, 30)
-        ));
+        nextButton.setBorder(BorderFactory.createEmptyBorder(3, 6, 3, 6));
         nextButton.setEnabled(false);
+        nextButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         nextButton.addActionListener(e -> nextLegenda());
 
-        bottomPanel.add(previousButton);
-        bottomPanel.add(nextButton);
+        // Custom hover effect
+        nextButton.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                if (nextButton.isEnabled()) {
+                    nextButton.setBackground(DARK_BLUE.darker());
+                }
+            }
+            public void mouseExited(MouseEvent e) {
+                nextButton.setBackground(DARK_BLUE);
+            }
+        });
 
-        // Status label
-        statusLabel = new JLabel(" ");
-        statusLabel.setFont(new Font("Segoe UI", Font.ITALIC, 11));
-        statusLabel.setForeground(TEXT_DARK);
-        statusLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        centerPanel.add(legendaArea, BorderLayout.CENTER);
+        centerPanel.add(previousButton, BorderLayout.WEST);
+        centerPanel.add(nextButton, BorderLayout.EAST);
 
         // Add all panels to main panel
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(centerPanel, BorderLayout.CENTER);
-        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
-
-        JPanel statusPanel = new JPanel(new BorderLayout());
-        statusPanel.setBackground(MAIN_BLUE);
-        statusPanel.add(statusLabel, BorderLayout.CENTER);
-        mainPanel.add(statusPanel, BorderLayout.PAGE_END);
 
         setContentPane(mainPanel);
 
@@ -240,19 +279,36 @@ public class LegendasApp extends JFrame {
     }
 
     private void loadDocxFile() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Documentos Word (.docx)", "docx"));
+        // Temporarily disable always-on-top so user can interact with both windows
+        boolean wasAlwaysOnTop = isAlwaysOnTop();
+        setAlwaysOnTop(false);
 
-        int result = fileChooser.showOpenDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
+        // Use native file dialog (independent window)
+        FileDialog fileDialog = new FileDialog((Frame) null, "Selecione o arquivo de legendas", FileDialog.LOAD);
+
+        // Set file filter for .docx files
+        fileDialog.setFile("*.docx");
+
+        // Set initial directory to Documents
+        String documentsPath = System.getProperty("user.home") + File.separator + "Documents";
+        fileDialog.setDirectory(documentsPath);
+
+        fileDialog.setVisible(true);
+
+        String filename = fileDialog.getFile();
+        String directory = fileDialog.getDirectory();
+
+        // Restore previous always-on-top state
+        setAlwaysOnTop(wasAlwaysOnTop);
+
+        if (filename != null && directory != null) {
+            File selectedFile = new File(directory, filename);
             loadLegendas(selectedFile);
         }
     }
 
     private void loadLegendas(File file) {
         try {
-            statusLabel.setText("Carregando legendas...");
 
             // Parse DOCX file
             DocxParser parser = new DocxParser();
@@ -263,7 +319,6 @@ public class LegendasApp extends JFrame {
                     "Nenhuma legenda encontrada no arquivo.",
                     "Aviso",
                     JOptionPane.WARNING_MESSAGE);
-                statusLabel.setText("Nenhuma legenda encontrada");
                 return;
             }
 
@@ -275,14 +330,11 @@ public class LegendasApp extends JFrame {
             previousButton.setEnabled(false);
             nextButton.setEnabled(legendas.size() > 1);
 
-            statusLabel.setText("Legendas carregadas com sucesso!");
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,
                 "Erro ao carregar o arquivo:\n" + e.getMessage(),
                 "Erro",
                 JOptionPane.ERROR_MESSAGE);
-            statusLabel.setText("Erro ao carregar legendas");
             e.printStackTrace();
         }
     }
@@ -306,13 +358,74 @@ public class LegendasApp extends JFrame {
             return;
         }
 
-        legendaArea.setText(legendas.get(currentIndex));
+        String text = legendas.get(currentIndex);
+        legendaArea.setText(text);
         legendaArea.setCaretPosition(0); // Scroll to top
 
-        countLabel.setText(String.format("Legenda %d de %d", currentIndex + 1, legendas.size()));
+        // Adjust rows based on content (most subtitles are 2 lines, max 4-6)
+        int lineCount = text.split("\n").length;
+        // Start with 2 rows, grow only if needed
+        int estimatedRows = Math.max(2, Math.min(lineCount, 8));
+        legendaArea.setRows(estimatedRows);
 
         // Update button states
         previousButton.setEnabled(currentIndex > 0);
         nextButton.setEnabled(currentIndex < legendas.size() - 1);
+
+        // Resize to fit content
+        resizeToFitContent();
+    }
+
+    /**
+     * Get Unicode font with specified size for Tibetan and Chinese support
+     */
+    private Font getUnicodeFontWithSize(int size) {
+        // Try fonts in order of preference for Unicode support
+        String[] fontNames = {"Arial Unicode MS", "Noto Sans", "Microsoft YaHei", Font.SANS_SERIF};
+
+        for (String fontName : fontNames) {
+            Font font = new Font(fontName, Font.PLAIN, size);
+            if (font.getFamily().equals(fontName) || fontName.equals(Font.SANS_SERIF)) {
+                return font;
+            }
+        }
+
+        return new Font(Font.SANS_SERIF, Font.PLAIN, size);
+    }
+
+    /**
+     * Update the legend area font size
+     */
+    private void updateLegendaFont() {
+        legendaArea.setFont(getUnicodeFontWithSize(currentFontSize));
+
+        // Recalculate rows if we have content
+        if (!legendas.isEmpty()) {
+            String text = legendas.get(currentIndex);
+            int lineCount = text.split("\n").length;
+            int estimatedRows = Math.max(2, Math.min(lineCount, 8));
+            legendaArea.setRows(estimatedRows);
+        }
+
+        legendaArea.revalidate();
+        legendaArea.repaint();
+    }
+
+    /**
+     * Resize window to fit content dynamically
+     */
+    private void resizeToFitContent() {
+        pack();
+
+        // Ensure reasonable minimum width only (no minimum height!)
+        Dimension currentSize = getSize();
+        int minWidth = 400;
+
+        if (currentSize.width < minWidth) {
+            setSize(minWidth, currentSize.height);
+        }
+
+        revalidate();
+        repaint();
     }
 }
